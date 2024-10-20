@@ -62,8 +62,24 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return new List<int>(); // Placeholder
+                List<int> result = new List<int>();
+                for (int i = 0; i < nums.Length; i++) //whichever numbers are present, those indices are marked negative
+                {
+                    int index = Math.Abs(nums[i]) - 1;
+                    if (index >= 0 && index < nums.Length && nums[index] > 0)
+                    {
+                        nums[index] = -nums[index];
+                    }
+                }
+                // whichever indices were not marked are the numbers that are missing. 
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    if (nums[i] > 0)
+                    {
+                        result.Add(i + 1);
+                    }
+                }
+                return result;
             }
             catch (Exception)
             {
@@ -72,12 +88,22 @@ namespace Assignment_2
         }
 
         // Question 2: Sort Array by Parity
-        public static int[] SortArrayByParity(int[] nums)
-        {
+        public static int[] SortArrayByParity(int[] nums) {
             try
             {
-                // Write your code here
-                return new int[0]; // Placeholder
+                int left = 0, right = nums.Length - 1;
+                // using 2 pointers, one for odd numbers, one for even.
+                while (left < right){
+                    if (nums[left] % 2 > nums[right] % 2){
+                        int temp = nums[left];
+                        nums[left] = nums[right];
+                        nums[right] = temp;
+                        //swapping numbers so that numbers on right are odd and on left are even.
+                    }
+                    if (nums[left] % 2 == 0) left++;
+                    if (nums[right] % 2 == 1) right--;
+                }
+                return nums; //printing numers wiht even first, then odd.
             }
             catch (Exception)
             {
@@ -90,8 +116,16 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return new int[0]; // Placeholder
+                Dictionary<int, int> map = new Dictionary<int, int>();
+                //finding the complement of each number by taking the help of hash map.
+                for (int i = 0; i < nums.Length; i++){
+                    int complement = target - nums[i];
+                    if (map.ContainsKey(complement)){
+                        return new int[] { map[complement], i }; //returning the indices to the function if complement is found
+                    }
+                     map[nums[i]] = i; //storing current number as key with index as 'i' as the value in the dictionary.
+                }
+                return new int[0]; //returning empty when no solution is found
             }
             catch (Exception)
             {
@@ -104,8 +138,10 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                Array.Sort(nums); //sorting the array nums
+                int n = nums.Length; //storing the length of the array in the variable n
+                //we calculate max by choosing between, product of 3 largest numbers or product of 2 smallest numbers(possibly negative) and the largest number
+                return Math.Max(nums[n-1] * nums[n-2] * nums[n-3], nums[0] * nums[1] * nums[n-1]);
             }
             catch (Exception)
             {
@@ -118,8 +154,13 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return "101010"; // Placeholder
+                if (decimalNumber == 0) return "0";
+                string binary = "";
+                while (decimalNumber > 0){
+                    binary = (decimalNumber % 2) + binary; //converting decimal to binary by getting the remainder from dividing by 2
+                    decimalNumber /= 2;
+                }
+                return binary; 
             }
             catch (Exception)
             {
@@ -132,8 +173,17 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                int left = 0, right = nums.Length - 1;
+                while (left < right){ //using binary search to find min in the rotated array
+                    int mid = (left + right) / 2;
+                    if (nums[mid] > nums[right]){
+                        left = mid + 1;
+                    }
+                    else{
+                        right=mid;
+                    }
+                }
+                return nums[left]; //returning the min from rotated sorted array
             }
             catch (Exception)
             {
@@ -146,8 +196,15 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return false; // Placeholder
+                if (x < 0) return false; //negative numbers removed as they are not palindromes
+                int original = x;
+                int reversed = 0;
+                while (x > 0){
+                    int digit = x % 10;
+                    reversed = reversed * 10 + digit; //reversing number by changing place values
+                    x /= 10;
+                }
+                return original == reversed; //checking if reverse and original are same
             }
             catch (Exception)
             {
@@ -160,8 +217,15 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                if (n == 0) return 0;
+                if (n == 1) return 1;
+                int a=0,b=1; //initializing first 2 numbers of fibbonacci series.
+                for (int i = 2; i <= n; i++){
+                    int temp = a + b; //calculating next number in the series
+                    a=b;
+                    b=temp;
+                }
+                return b; 
             }
             catch (Exception)
             {
